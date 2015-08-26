@@ -1,0 +1,6 @@
+{
+  "execMap": {
+    "js": "{{pwd}}/node_modules/.bin/babel-node",
+    "jsx": "{{pwd}}/node_modules/.bin/babel-node"
+  }
+}

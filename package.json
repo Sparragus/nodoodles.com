@@ -1,0 +1,37 @@
+{
+  "name": "nodoodles.com",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/babel-node index.js",
+    "build": "webpack --progress --colors",
+    "watch": "echo \"Select between watch:client and watch:server\"",
+    "watch:client": "npm run build -- --watch",
+    "watch:server": "node_modules/.bin/nodemon index.js"
+  },
+  "author": "Richard B. Kaufman-Lopez <richardbkaufman@gmail.com> (http://richardkaufman.org)",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^5.8.22",
+    "babel-eslint": "^4.1.0",
+    "babel-loader": "^5.3.2",
+    "babel-runtime": "^5.8.20",
+    "css-loader": "^0.16.0",
+    "eslint": "^1.2.1",
+    "eslint-config-standard": "^4.1.0",
+    "eslint-config-standard-react": "^1.0.4",
+    "eslint-plugin-react": "^3.2.3",
+    "eslint-plugin-standard": "^1.2.0",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
+    "nodemon": "^1.4.1",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "dependencies": {
+    "babel": "^5.8.21"
+  }
+}

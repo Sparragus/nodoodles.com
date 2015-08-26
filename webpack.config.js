@@ -6,12 +6,12 @@ var pathToReact = path.resolve(node_modules, 'react/dist/react.min.js')
 
 module.exports = {
   entry: [{
-    app: path.resolve(__dirname, 'client/index.js')
+    app: path.resolve(__dirname, 'client', 'index.js')
   }],
 
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'public', 'assets'),
+    filename: '[name].js'
   },
 
   module: {

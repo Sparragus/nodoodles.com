@@ -15,7 +15,24 @@ doodleRoutes.route('/')
     })
   })
   .post(function (req, res) {
-    res.sendStatus(501)
+    // TODO: Clean, parse, escape, Doodle properties.
+    const {date, image, alt, url} = req.body
+    const doodle = new Doodle({
+      date,
+      image,
+      alt,
+      url
+    })
+
+    doodle.save(function (error) {
+      if (error) {
+        console.error(`Error saving Doodle to database.`)
+        return res.sendStatus(501)
+      }
+
+      console.log(`Saved Doodle to database.`)
+      res.sendStatus(201)
+    })
   })
 
 doodleRoutes.route('/:date')

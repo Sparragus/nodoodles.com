@@ -36,15 +36,39 @@ doodleRoutes.route('/')
     })
   })
 
+
+
+doodleRoutes.param('date', function (req, res, next, requestedDate) {
+  /**
+   * When the user sends a date, she usually sends the date based on the local time.
+   * An unexpected result may happen if the local time on the user's computer is on a
+   * different day than UTC. For example, if it is 22:30 on August 27, 2015 in Mexico,
+   * it would be 3:30 on August 28, 2015 in UTC.
+   *
+   * The user expects to see the Doodle of the day in their local time, not the day
+   * of the time in the server.
+   *
+   * What we do is extract components from the requestedDate, and use them to create
+   * a new Date object. This new date will have the same day as the user expects, 
+   * but will be defined in UTC.
+   *
+   * Therefore, we always operate on the day the user expects.
+   */
+
+  // TODO: Sanitize input.
+  const date = moment(requestedDate)
+  const year = date.year()
+  const month = date.month()
+  const day = date.date()
+
+  req.doodleDate = moment.tz(`${year}-${month+1}-${day}`, 'YYYY-MM-DD', 'UTC')
+
+  next()
+})
+
 doodleRoutes.route('/:date')
   .get(function (req, res) {
-    // TODO: Sanitize input.
-    const date = moment(req.params.date)
-    const year = date.year()
-    const month = date.month()
-    const day = date.date()
-
-    const doodleDate = moment.tz(`${year}-${month+1}-${day}`, 'YYYY-MM-DD', 'UTC')
+    const doodleDate = req.doodleDate
 
     Doodle.findOne({
       date: {

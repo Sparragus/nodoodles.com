@@ -1,21 +1,25 @@
 import {Router} from 'express'
-import {Doodle} from '../../models'
 import moment from 'moment-timezone'
+import debug from 'debug'
+
+import {Doodle} from '../../models'
+
+const log = debug('nodoodles:api:routes:doodle')
 
 const doodleRoutes = Router()
 
 doodleRoutes.route('/')
-  .get(function (req, res) {
+  .get(function (req, res, next) {
     Doodle.find({}, function (error, doodles) {
       if (error) {
-        console.error(`Error fetching doodles`)
-        return res.sendStatus(500)
+        log(`Error fetching doodles`)
+        return next(error)
       }
 
       return res.json(doodles)
     })
   })
-  .post(function (req, res) {
+  .post(function (req, res, next) {
     // TODO: Sanitize input.
     const {date, image, alt, url} = req.body
     const doodle = new Doodle({
@@ -27,17 +31,20 @@ doodleRoutes.route('/')
 
     doodle.save(function (error) {
       if (error) {
-        console.error(`Error saving Doodle to database.`)
-        return res.sendStatus(501)
+        log(`Error saving Doodle to database.`)
+        next(error)
       }
 
-      console.log(`Saved Doodle to database.`)
+      log(`Saved Doodle to database.`)
       return res.sendStatus(201)
     })
   })
 
 
-
+/**
+ * Converts the :date parameter to a moment.js object with the date of the user
+ * (not necessarily the date of the server) 
+ */
 doodleRoutes.param('date', function (req, res, next, requestedDate) {
   /**
    * When the user sends a date, she usually sends the date based on the local time.
@@ -67,7 +74,7 @@ doodleRoutes.param('date', function (req, res, next, requestedDate) {
 })
 
 doodleRoutes.route('/:date')
-  .get(function (req, res) {
+  .get(function (req, res, next) {
     const doodleDate = req.doodleDate
 
     Doodle.findOne({
@@ -77,14 +84,26 @@ doodleRoutes.route('/:date')
       }
     }, function (error, doodle) {
       if (error) {
-        console.error(`Error fetching doodle`)
-        return res.sendStatus(500)
+        log('Error fetching doodle')
+        return next(error)
       }
 
       return res.json(doodle)
     })
   })
-  .put(function (req, res) {
+  .put(function (req, res, next) {
+    const doodleDate = req.doodleDate
+    Doodle.findOne({
+      date: {
+        $gte: doodleDate.startOf('day').clone(),
+        $lte: doodleDate.endOf('day').clone()
+      }
+    }, function (error, doodle) {
+      if (error) {
+        log(`Error fetching doodle`)
+        next(error)
+      }
+    })
     res.sendStatus(501)
   })
   .delete(function (req, res) {

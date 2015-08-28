@@ -1,6 +1,9 @@
 import {Router} from 'express'
+import debug from 'debug'
 
 import {doodleRoutes, userRoutes} from './routes'
+
+const log = debug('nodoodles:api')
 
 const api = Router()
 

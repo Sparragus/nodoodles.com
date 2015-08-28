@@ -5,7 +5,14 @@ const doodleRoutes = Router()
 
 doodleRoutes.route('/')
   .get(function (req, res) {
-    res.sendStatus(501)
+    Doodle.find({}, function (error, doodles) {
+      if (error) {
+        console.error(`Error fetching doodles`)
+        return res.sendStatus(500)
+      }
+
+      res.json(doodles)
+    })
   })
   .post(function (req, res) {
     res.sendStatus(501)

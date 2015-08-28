@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 
 const doodleSchema = mongoose.Schema({
-  imageURL: String,
+  date: Date,
+  image: String,
   alt: String,
-  link: String
+  url: String
 })
 
 const Doodle = mongoose.model('Doodle', doodleSchema)

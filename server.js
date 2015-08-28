@@ -10,10 +10,15 @@ const app = express()
 // =======================
 // configuration =========
 // =======================
-//import config from './config.js'
+import config from './config.js'
 
 app.set('port', process.env.PORT || 3000)
-//mongoose.connect(config.database) // connect to database
+mongoose.connect(config.database[process.env.NODE_ENV || 'development'], function (error) {
+  if (error) {
+    throw new Error('Cannot establish connection to the database.')
+  }
+  console.log('Connected to the database.')
+})
 
 // Use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: false }))

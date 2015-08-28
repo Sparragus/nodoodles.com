@@ -24,6 +24,7 @@
     "eslint-config-standard-react": "^1.0.4",
     "eslint-plugin-react": "^3.2.3",
     "eslint-plugin-standard": "^1.2.0",
+    "faker": "^3.0.1",
     "less": "^2.5.1",
     "less-loader": "^2.2.0",
     "nodemon": "^1.4.1",

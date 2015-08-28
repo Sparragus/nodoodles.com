@@ -22,7 +22,6 @@ app.use(bodyParser.json())
 // use morgan to log requests to the console
 app.use(morgan('dev'))
 
-
 // =======================
 // routes ================
 // =======================
@@ -30,7 +29,7 @@ app.use(morgan('dev'))
 app.use(express.static('public'))
 
 // API
-// app.use('/api', api)
+app.use('/api', api)
 
 // Basic route
 app.get('/', function(req, res) {

@@ -21,6 +21,7 @@ doodleRoutes.route('/')
   })
   .post(function (req, res, next) {
     // TODO: Sanitize input.
+    // TODO: What happens with unpacking if a user does not include some of the fields?
     const {date, image, alt, url} = req.body
     const doodle = new Doodle({
       date,
@@ -118,7 +119,20 @@ doodleRoutes.route('/:date')
     })
   })
   .delete(function (req, res) {
-    res.sendStatus(501)
+    const doodleDate = req.doodleDate
+    Doodle.findOneAndRemove({
+      date: {
+        $gte: doodleDate.startOf('day').clone(),
+        $lte: doodleDate.endOf('day').clone()
+      }
+    }, function (error, doodle) {
+      if (error) {
+        log(`Error deleting doodle`)
+        next(error)
+      }
+
+      return res.sendStatus(200)
+    })
   })
 
 export default doodleRoutes

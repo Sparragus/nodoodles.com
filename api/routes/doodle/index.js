@@ -22,8 +22,10 @@ doodleRoutes.route('/')
   .post(function (req, res, next) {
     // TODO: Sanitize input.
     // TODO: What happens with unpacking if a user does not include some of the fields?
-    const {date, image, alt, url} = req.body
+    // TODO: We actually don't need to get the userId from body. It should be given to us by the auth middleware
+    const {userId, date, image, alt, url} = req.body
     const doodle = new Doodle({
+      userId,
       date,
       image,
       alt,
@@ -33,7 +35,7 @@ doodleRoutes.route('/')
     doodle.save(function (error) {
       if (error) {
         log(`Error saving Doodle to database.`)
-        next(error)
+        return next(error)
       }
 
       log(`Saved Doodle to database.`)
@@ -73,63 +75,57 @@ doodleRoutes.param('date', function (req, res, next, requestedDate) {
   next()
 })
 
+/**
+ * Get doodle from the database.
+ */
+doodleRoutes.all('/:date', function getDoodleFromDatabase (req, res, next) {
+  const doodleDate = req.doodleDate
+  Doodle.findOne({
+    date: {
+      $gte: doodleDate.startOf('day').clone(),
+      $lte: doodleDate.endOf('day').clone()
+    }
+  }, function (error, doodle) {
+    if (error) {
+      log('Error fetching doodle')
+      return next(error)
+    }
+
+    req.doodle = doodle
+    next()
+  })
+})
+
 doodleRoutes.route('/:date')
   .get(function (req, res, next) {
-    const doodleDate = req.doodleDate
-
-    Doodle.findOne({
-      date: {
-        $gte: doodleDate.startOf('day').clone(),
-        $lte: doodleDate.endOf('day').clone()
-      }
-    }, function (error, doodle) {
-      if (error) {
-        log('Error fetching doodle')
-        return next(error)
-      }
-
-      return res.json(doodle)
-    })
+    log(`GET doodle/${req.doodleDate.format('YYYY-MM-DD')}.`)
+    return res.json(req.doodle)
   })
   .put(function (req, res, next) {
-    const doodleDate = req.doodleDate
-    Doodle.findOne({
-      date: {
-        $gte: doodleDate.startOf('day').clone(),
-        $lte: doodleDate.endOf('day').clone()
-      }
-    }, function (error, doodle) {
+    const doodle = req.doodle
+
+    // Set new value, or keep old
+    doodle.image = req.body.image || doodle.image
+    doodle.alt = req.body.alt || doodle.alt
+    doodle.url = req.body.url || doodle.url
+
+    doodle.save(function (error) {
       if (error) {
-        log(`Error fetching doodle`)
-        next(error)
+        log(`Error saving doodle`)
+        return next(error)
       }
-
-      doodle.image = req.body.image || doodle.image
-      doodle.alt = req.body.alt || doodle.alt
-      doodle.url = req.body.url || doodle.url
-
-      doodle.save(function (error) {
-        if (error) {
-          log(`Error saving doodle`)
-          next(error)
-        }
-        return res.sendStatus(200)
-      })
+      log(`PUT doodle/${req.doodleDate.format('YYYY-MM-DD')}`)
+      return res.sendStatus(200)
     })
   })
   .delete(function (req, res) {
-    const doodleDate = req.doodleDate
-    Doodle.findOneAndRemove({
-      date: {
-        $gte: doodleDate.startOf('day').clone(),
-        $lte: doodleDate.endOf('day').clone()
-      }
-    }, function (error, doodle) {
+    const doodle = req.doodle
+    doodle.remove(function (error, doodle) {
       if (error) {
         log(`Error deleting doodle`)
-        next(error)
+        return next(error)
       }
-
+      log(`DELETE doodle/${req.doodleDate.format('YYYY-MM-DD')}`)
       return res.sendStatus(200)
     })
   })

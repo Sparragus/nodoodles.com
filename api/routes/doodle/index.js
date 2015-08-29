@@ -63,7 +63,7 @@ doodleRoutes.param('date', function (req, res, next, requestedDate) {
    */
 
   // TODO: Sanitize input.
-  const date = moment(requestedDate)
+  const date = moment(requestedDate, 'YYYY-MM-DD')
   const year = date.year()
   const month = date.month()
   const day = date.date()
@@ -103,8 +103,19 @@ doodleRoutes.route('/:date')
         log(`Error fetching doodle`)
         next(error)
       }
+
+      doodle.image = req.body.image || doodle.image
+      doodle.alt = req.body.alt || doodle.alt
+      doodle.url = req.body.url || doodle.url
+
+      doodle.save(function (error) {
+        if (error) {
+          log(`Error saving doodle`)
+          next(error)
+        }
+        return res.sendStatus(200)
+      })
     })
-    res.sendStatus(501)
   })
   .delete(function (req, res) {
     res.sendStatus(501)

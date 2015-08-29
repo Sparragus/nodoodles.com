@@ -1,5 +1,14 @@
 import mongoose from 'mongoose'
+import validate from 'mongoose-validator'
 
+const urlValidator = [
+  validate({
+    validator: 'isURL'
+  })
+]
+
+// Requiring all the fields forces a design on the Doodle. Therefore, all doodles
+// will always have an image, an alt text, and a url.
 const doodleSchema = mongoose.Schema({
   date: {
     type: Date,
@@ -17,11 +26,12 @@ const doodleSchema = mongoose.Schema({
   },
   alt: {
     type: String,
-    default: ''
+    required: true
   },
   url: {
     type: String,
-    default: ''
+    required: true,
+    validate: urlValidator
   }
 })
 

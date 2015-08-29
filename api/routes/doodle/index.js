@@ -41,7 +41,6 @@ doodleRoutes.route('/')
     })
   })
 
-
 /**
  * Converts the :date parameter to a moment.js object with the date of the user
  * (not necessarily the date of the server) 

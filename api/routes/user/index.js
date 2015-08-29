@@ -5,7 +5,18 @@ const userRoutes = Router()
 
 userRoutes.route('/')
   .post(function (req, res) {
-    res.sendStatus(501)
+    const {email} = req.body
+    const user = new User({
+      email
+    })
+
+    user.save(function saveUserToDatabase (error) {
+      if (error) {
+        log(`Failed to save user to database`)
+        next(error)
+      }
+      res.sendStatus(201)
+    })
   })
 
 userRoutes.route('/:id')

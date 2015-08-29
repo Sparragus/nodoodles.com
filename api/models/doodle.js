@@ -1,11 +1,28 @@
 import mongoose from 'mongoose'
 
 const doodleSchema = mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
-  date: Date,
-  image: String,
-  alt: String,
-  url: String
+  date: {
+    type: Date,
+    required: true,
+    unique: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    unique: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  alt: {
+    type: String,
+    default: ''
+  },
+  url: {
+    type: String,
+    default: ''
+  }
 })
 
 const Doodle = mongoose.model('Doodle', doodleSchema)

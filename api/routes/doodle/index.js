@@ -22,8 +22,10 @@ doodleRoutes.route('/')
   .post(function (req, res, next) {
     // TODO: Sanitize input.
     // TODO: What happens with unpacking if a user does not include some of the fields?
-    const {date, image, alt, url} = req.body
+    // TODO: We actually don't need to get the userId from body. It should be given to us by the auth middleware
+    const {userId, date, image, alt, url} = req.body
     const doodle = new Doodle({
+      userId,
       date,
       image,
       alt,
@@ -33,7 +35,7 @@ doodleRoutes.route('/')
     doodle.save(function (error) {
       if (error) {
         log(`Error saving Doodle to database.`)
-        next(error)
+        return next(error)
       }
 
       log(`Saved Doodle to database.`)
@@ -102,6 +104,7 @@ doodleRoutes.route('/:date')
   .put(function (req, res, next) {
     const doodle = req.doodle
 
+    // Set new value, or keep old
     doodle.image = req.body.image || doodle.image
     doodle.alt = req.body.alt || doodle.alt
     doodle.url = req.body.url || doodle.url
@@ -109,9 +112,9 @@ doodleRoutes.route('/:date')
     doodle.save(function (error) {
       if (error) {
         log(`Error saving doodle`)
-        next(error)
+        return next(error)
       }
-      log(`PUT doodle/${doodleDate.format('YYYY-MM-DD')}`)
+      log(`PUT doodle/${req.doodleDate.format('YYYY-MM-DD')}`)
       return res.sendStatus(200)
     })
   })
@@ -120,9 +123,9 @@ doodleRoutes.route('/:date')
     doodle.remove(function (error, doodle) {
       if (error) {
         log(`Error deleting doodle`)
-        next(error)
+        return next(error)
       }
-      log(`DELETE doodle/${doodleDate.format('YYYY-MM-DD')}`)
+      log(`DELETE doodle/${req.doodleDate.format('YYYY-MM-DD')}`)
       return res.sendStatus(200)
     })
   })

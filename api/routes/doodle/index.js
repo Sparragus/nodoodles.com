@@ -73,63 +73,56 @@ doodleRoutes.param('date', function (req, res, next, requestedDate) {
   next()
 })
 
+/**
+ * Get doodle from the database.
+ */
+doodleRoutes.all('/:date', function getDoodleFromDatabase (req, res, next) {
+  const doodleDate = req.doodleDate
+  Doodle.findOne({
+    date: {
+      $gte: doodleDate.startOf('day').clone(),
+      $lte: doodleDate.endOf('day').clone()
+    }
+  }, function (error, doodle) {
+    if (error) {
+      log('Error fetching doodle')
+      return next(error)
+    }
+
+    req.doodle = doodle
+    next()
+  })
+})
+
 doodleRoutes.route('/:date')
   .get(function (req, res, next) {
-    const doodleDate = req.doodleDate
-
-    Doodle.findOne({
-      date: {
-        $gte: doodleDate.startOf('day').clone(),
-        $lte: doodleDate.endOf('day').clone()
-      }
-    }, function (error, doodle) {
-      if (error) {
-        log('Error fetching doodle')
-        return next(error)
-      }
-
-      return res.json(doodle)
-    })
+    log(`GET doodle/${req.doodleDate.format('YYYY-MM-DD')}.`)
+    return res.json(req.doodle)
   })
   .put(function (req, res, next) {
-    const doodleDate = req.doodleDate
-    Doodle.findOne({
-      date: {
-        $gte: doodleDate.startOf('day').clone(),
-        $lte: doodleDate.endOf('day').clone()
-      }
-    }, function (error, doodle) {
+    const doodle = req.doodle
+
+    doodle.image = req.body.image || doodle.image
+    doodle.alt = req.body.alt || doodle.alt
+    doodle.url = req.body.url || doodle.url
+
+    doodle.save(function (error) {
       if (error) {
-        log(`Error fetching doodle`)
+        log(`Error saving doodle`)
         next(error)
       }
-
-      doodle.image = req.body.image || doodle.image
-      doodle.alt = req.body.alt || doodle.alt
-      doodle.url = req.body.url || doodle.url
-
-      doodle.save(function (error) {
-        if (error) {
-          log(`Error saving doodle`)
-          next(error)
-        }
-        return res.sendStatus(200)
-      })
+      log(`PUT doodle/${doodleDate.format('YYYY-MM-DD')}`)
+      return res.sendStatus(200)
     })
   })
   .delete(function (req, res) {
-    const doodleDate = req.doodleDate
-    Doodle.findOneAndRemove({
-      date: {
-        $gte: doodleDate.startOf('day').clone(),
-        $lte: doodleDate.endOf('day').clone()
-      }
-    }, function (error, doodle) {
+    const doodle = req.doodle
+    doodle.remove(function (error, doodle) {
       if (error) {
         log(`Error deleting doodle`)
         next(error)
       }
-
+      log(`DELETE doodle/${doodleDate.format('YYYY-MM-DD')}`)
       return res.sendStatus(200)
     })
   })

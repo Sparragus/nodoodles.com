@@ -9,7 +9,7 @@
     "build": "webpack --progress --colors",
     "watch": "echo \"Select between watch:client and watch:server\"",
     "watch:client": "npm run build -- --watch",
-    "watch:server": "node_modules/.bin/nodemon index.js"
+    "watch:server": "DEBUG=nodoodles:* node_modules/.bin/nodemon index.js"
   },
   "author": "Richard B. Kaufman-Lopez <richardbkaufman@gmail.com> (http://richardkaufman.org)",
   "license": "MIT",
@@ -35,6 +35,7 @@
   "dependencies": {
     "babel": "^5.8.21",
     "body-parser": "^1.13.3",
+    "debug": "^2.2.0",
     "express": "^4.13.3",
     "moment": "^2.10.6",
     "moment-timezone": "^0.4.0",

@@ -3,8 +3,11 @@ import bodyParser from 'body-parser'
 import morgan from 'morgan'
 
 import mongoose from 'mongoose'
+import debug from 'debug'
 
 import api from './api'
+
+const log = debug('nodoodles:server')
 
 const app = express()
 // =======================
@@ -17,7 +20,7 @@ mongoose.connect(config.database[process.env.NODE_ENV || 'development'], functio
   if (error) {
     throw new Error('Cannot establish connection to the database.')
   }
-  console.log('Connected to the database.')
+  log('Connected to the database.')
 })
 
 // Use body parser so we can get info from POST and/or URL parameters

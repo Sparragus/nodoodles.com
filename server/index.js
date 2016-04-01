@@ -1,14 +1,13 @@
 import 'babel-polyfill'
 
-const Koa = require('koa')
+import Koa from 'koa'
+import logger from 'koa-logger'
+
 const app = new Koa()
 
-app.use(async function (ctx, next) {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
+if (process.env.NODE_ENV === 'development') {
+  app.use(logger())
+}
 
 app.use((ctx) => {
   ctx.body = 'Hello Koa'

@@ -3,7 +3,7 @@ import 'babel-polyfill'
 import Koa from 'koa'
 import logger from 'koa-logger'
 
-import routes from './routes'
+import api from './api'
 
 const app = new Koa()
 
@@ -11,6 +11,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(logger())
 }
 
-app.use(routes())
+app.use(api())
 
 app.listen(3000)

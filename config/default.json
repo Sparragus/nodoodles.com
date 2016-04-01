@@ -17,5 +17,5 @@
       "bucket": "BUCKET_NAME",
       "endpoint": "s3.amazonaws.com"
     }
-  },
+  }
 }

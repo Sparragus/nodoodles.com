@@ -45,7 +45,8 @@
     "koa-compose": "^3.1.0",
     "koa-jwt": "^1.1.2",
     "koa-logger": "^2.0.0",
-    "koa-router": "^7.0.1"
+    "koa-router": "^7.0.1",
+    "mongoose": "^4.4.10"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",

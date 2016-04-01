@@ -1,6 +1,8 @@
 import Router from 'koa-router'
 import compose from 'koa-compose'
 
+import auth from '../middleware/auth'
+
 export default function () {
   const publ = new Router()
   const priv = new Router()
@@ -13,7 +15,7 @@ export default function () {
   return compose([
     publ.routes(),
     publ.allowedMethods(),
-    // auth(),
+    auth(),
     priv.routes(),
     priv.allowedMethods()
   ])

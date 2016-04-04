@@ -1,4 +1,7 @@
-config.js
+lib
+config/*
+!config/default.json
+s3
 
 ###Node###
 

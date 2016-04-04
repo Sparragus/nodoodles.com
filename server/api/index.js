@@ -7,29 +7,26 @@ import auth from '../middleware/auth'
 import signup from './users/signup'
 import login from './users/login'
 
-function noop (ctx, next) { return }
+function noop (ctx, next) { ctx.status = 501 }
 
 export default function () {
   const publ = new Router()
   const priv = new Router()
 
-  // publ.get('*', async function (ctx, next) {
-  //   ctx.body = 'Hello, World!'
-  //   await next()
-  // })
-
   // Public Routes
-  publ.get('/doodle', noop) // Get today's doodle(s)
+  publ.get('/doodle', noop) // Get one of today's doodles
   publ.post('/signup', signup) // Sign up
   publ.post('/login', login) // Log in
 
   // Private Routes
-  
+  priv.post('/doodle', noop) // Create a new doodle
+  priv.put('/doodle/:doodle', noop) // Edits a doodle
+
   return compose([
     publ.routes(),
     publ.allowedMethods(),
+    // auth(),
     priv.routes(),
-    priv.allowedMethods(),
-    auth()
+    priv.allowedMethods()
   ])
 }

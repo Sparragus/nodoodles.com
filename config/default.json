@@ -9,13 +9,14 @@
     "port": 3000
   },
   "aws": {
-    "s3": {
-      "region": "us-east-1",
-      "s3ForcePathStyle": true,
+    "config": {
       "accessKeyId": "ACCESS_KEY_ID",
       "secretAccessKey": "ACCESS_KEY_SECRET",
-      "bucket": "BUCKET_NAME",
+      "region": "us-east-1",
       "endpoint": "s3.amazonaws.com"
+    },
+    "s3": {
+      "bucket": "BUCKET_NAME"
     }
   }
 }

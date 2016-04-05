@@ -22,8 +22,11 @@
     "dev": "NODE_ENV=development npm-run-all -p dev:*",
     "dev:client": "npm-run-all -p client:*",
     "dev:server": "npm-run-all -p server:*",
+    "prepare": "npm-run-all -s prepare:*",
+    "prepare:clean": "rm -rf build",
+    "prepare:folders": "mkdir -p ./build/s3/nodoodles_development ./build/s3/nodoodles_test",
     "server:api": "nodemon -w server -w config -r babel-core/register server",
-    "server:s3": "echo s3"
+    "server:s3": "s3rver -d ./build/s3/"
   },
   "standard": {
     "parser": "babel-eslint"
@@ -40,6 +43,7 @@
   },
   "homepage": "https://github.com/Sparragus/nodoodles.com#readme",
   "dependencies": {
+    "aws-sdk": "^2.3.0",
     "bcryptjs": "^2.3.0",
     "config": "^1.19.0",
     "koa": "^2.0.0",
@@ -47,8 +51,10 @@
     "koa-compose": "^3.1.0",
     "koa-jwt": "^1.1.2",
     "koa-logger": "^2.0.0",
+    "koa-multer": "^1.0.0",
     "koa-router": "^7.0.1",
     "mongoose": "^4.4.10",
+    "multer-s3": "^1.4.1",
     "validator": "^5.1.0"
   },
   "devDependencies": {
@@ -58,6 +64,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
     "npm-run-all": "^1.7.0",
+    "s3rver": "0.0.13",
     "standard": "^6.0.8"
   }
 }

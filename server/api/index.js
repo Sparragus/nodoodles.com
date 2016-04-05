@@ -1,11 +1,12 @@
 import Router from 'koa-router'
 import compose from 'koa-compose'
 
-import auth from '../middleware/auth'
+// import auth from '../middleware/auth'
 
 // Routes
 import signup from './users/signup'
 import login from './users/login'
+import * as doodle from './doodles'
 
 function noop (ctx, next) { ctx.status = 501 }
 
@@ -19,7 +20,7 @@ export default function () {
   publ.post('/login', login) // Log in
 
   // Private Routes
-  priv.post('/doodle', noop) // Create a new doodle
+  priv.post('/doodle', doodle.upload.single('image'), doodle.create) // Create a new doodle
   priv.put('/doodle/:doodle', noop) // Edits a doodle
 
   return compose([

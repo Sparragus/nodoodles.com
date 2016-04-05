@@ -21,10 +21,10 @@ export default function () {
 
   // Private Routes
   priv.param('doodle', doodle.param) // Validate :doodle param
-  priv.get('/doodle/:doodle', doodle.get) // Gets doodle
-  priv.post('/doodle', doodle.create) // Create a new doodle
-  // priv.put('/doodle/:doodle', doodle.upload.single('image'), noop) // Edits a doodle
-  priv.delete('/doodle/:doodle', doodle.archive) // Archives a doodle
+  priv.get('/doodles/:doodle', doodle.get) // Get doodle
+  priv.post('/doodles', doodle.create) // Create a new doodle
+  // priv.put('/doodles/:doodle', doodle.upload.single('image'), noop) // Edits a doodle
+  priv.delete('/doodles/:doodle', doodle.archive) // Archives a doodle
 
   return compose([
     publ.routes(),

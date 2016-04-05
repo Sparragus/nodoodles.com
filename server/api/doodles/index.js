@@ -29,7 +29,6 @@ const multerOptions = {
 export const upload = multer(multerOptions)
 
 export async function param (id, ctx, next) {
-  const doodle = await Doodle.findOne({id: id, archived: false}).exec()
   const doodle = await Doodle.findOne({_id: id, archived: false}).exec()
   ctx.assert(doodle, 404, `Doodle not found: [${id}]`)
 
@@ -57,6 +56,29 @@ export async function create (ctx, next) {
   })
 
   ctx.status = 201
+  ctx.type = 'json'
+  ctx.body = doodle.toObject()
+}
+
+export async function update (ctx, next) {
+  let doodle = ctx.state.doodle
+  const body = ctx.request.body
+
+  const data = Doodle.updateableFields.reduce((acc, field) => {
+    if (body[field]) acc[field] = body[field]
+    return acc
+  }, {})
+
+  for (let key in data) {
+    doodle[key] = data[key]
+  }
+
+  doodle = await doodle.save()
+
+  // doodle = await doodle
+  //   .populate('author', 'name -_id')
+  //   .execPopulate()
+
   ctx.type = 'json'
   ctx.body = doodle.toObject()
 }

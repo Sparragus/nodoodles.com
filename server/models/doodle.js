@@ -15,4 +15,12 @@ const Doodle = new Schema({
 // Adds createdAt and modifiedAt timestamps
 Doodle.plugin(timestamps)
 
+Doodle.statics.updateableFields = [
+  'image',
+  'altText',
+  'url',
+  'publicationDate',
+  'author'
+]
+
 export default mongoose.model('Doodle', Doodle)

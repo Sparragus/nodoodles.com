@@ -23,7 +23,7 @@ export default function () {
   priv.param('doodle', doodle.param) // Validate :doodle param
   priv.get('/doodles/:doodle', doodle.get) // Get doodle
   priv.post('/doodles', doodle.create) // Create a new doodle
-  // priv.put('/doodles/:doodle', doodle.upload.single('image'), noop) // Edits a doodle
+  priv.put('/doodles/:doodle', doodle.upload.single('image'), doodle.update) // Edits a doodle
   priv.delete('/doodles/:doodle', doodle.archive) // Archives a doodle
 
   return compose([

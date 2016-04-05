@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import timestamps from './plugins/timestamps'
 import {
   email as emailValidator,
   password as passwordValidator
@@ -11,11 +12,10 @@ const User = new Schema({
   password: {type: String, required: true, validate: passwordValidator},
   roles: [{type: String, enum: ['admin', 'moderator', 'user']}],
   preferences: {type: Object},
-  lastLogin: {type: Date},
-  archived: {type: Boolean, default: false},
-  createdAt: {type: Date, default: Date.now},
-  modifiedAt: {type: Date, default: Date.now}
+  archived: {type: Boolean, default: false}
 })
+
+User.plugin(timestamps)
 
 // Indexes
 User.index({email: 1}, {unique: true})

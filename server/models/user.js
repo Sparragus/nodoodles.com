@@ -16,6 +16,7 @@ const User = new Schema({
 })
 
 // Adds createdAt and modifiedAt timestamps
+// Adds createdAt and modifiedAt timestamps
 User.plugin(timestamps)
 
 // Indexes

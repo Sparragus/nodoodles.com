@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import compose from 'koa-compose'
 
-// import auth from '../middleware/auth'
+import auth from '../middleware/auth'
 
 // Routes
 import signup from './users/signup'
@@ -20,13 +20,13 @@ export default function () {
   publ.post('/login', login) // Log in
 
   // Private Routes
-  priv.post('/doodle', doodle.upload.single('image'), doodle.create) // Create a new doodle
-  priv.put('/doodle/:doodle', noop) // Edits a doodle
+  priv.post('/doodle', doodle.create) // Create a new doodle
+  // priv.put('/doodle/:doodle', doodle.upload.single('image'), noop) // Edits a doodle
 
   return compose([
     publ.routes(),
     publ.allowedMethods(),
-    // auth(),
+    auth(),
     priv.routes(),
     priv.allowedMethods()
   ])

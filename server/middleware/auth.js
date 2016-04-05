@@ -6,10 +6,10 @@ import jwt from 'koa-jwt'
 import User from '../models/user'
 
 export default function auth () {
-  function getUser (ctx, next) {
+  function getUser () {
     return async function getUser (ctx, next) {
       ctx.state.user = await User.findById(ctx.state.user.id).exec()
-      next()
+      await next()
     }
   }
 

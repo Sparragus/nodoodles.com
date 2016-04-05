@@ -29,5 +29,17 @@ const multerOptions = {
 export const upload = multer(multerOptions)
 
 export async function create (ctx, next) {
-  // TODO: Upload an image to S3. Save in database.
+  const { publicationDate } = ctx.request.body
+  // TODO: Validate publicationDate
+  ctx.assert(publicationDate, 422, 'publicationDate not given')
+
+  // TODO: Make sure the user does not have a doodle for that day
+  const doodle = await Doodle.create({
+    publicationDate,
+    author: ctx.state.user
+  })
+
+  ctx.status = 201
+  ctx.type = 'json'
+  ctx.body = doodle.toObject()
 }

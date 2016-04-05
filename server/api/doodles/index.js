@@ -29,7 +29,7 @@ const multerOptions = {
 export const upload = multer(multerOptions)
 
 export async function param (id, ctx, next) {
-  const doodle = await Doodle.findById(id).exec()
+  const doodle = await Doodle.findOne({id: id, archived: false}).exec()
   ctx.assert(doodle, 404, `Doodle not found: [${id}]`)
 
   ctx.state.doodle = doodle

@@ -37,6 +37,13 @@ export async function param (id, ctx, next) {
   return next()
 }
 
+export async function get (ctx, next) {
+  const doodle = ctx.state.doodle
+
+  ctx.type = 'json'
+  ctx.body = doodle.toObject()
+}
+
 export async function create (ctx, next) {
   const { publicationDate } = ctx.request.body
   // TODO: Validate publicationDate

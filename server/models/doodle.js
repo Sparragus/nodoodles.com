@@ -12,6 +12,7 @@ const Doodle = new Schema({
   archived: { type: Boolean, default: false }
 })
 
+// Adds createdAt and modifiedAt timestamps
 Doodle.plugin(timestamps)
 
 export default mongoose.model('Doodle', Doodle)

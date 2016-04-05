@@ -15,6 +15,7 @@ const User = new Schema({
   archived: {type: Boolean, default: false}
 })
 
+// Adds createdAt and modifiedAt timestamps
 User.plugin(timestamps)
 
 // Indexes

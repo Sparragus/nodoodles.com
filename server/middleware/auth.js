@@ -9,7 +9,7 @@ export default function auth () {
   function getUser () {
     return async function getUser (ctx, next) {
       ctx.state.user = await User.findById(ctx.state.user.id).exec()
-      await next()
+      return next()
     }
   }
 

@@ -20,7 +20,9 @@ export default function () {
   publ.post('/login', login) // Log in
 
   // Private Routes
+  priv.param('doodle', doodle.param) // Validate :doodle param
   priv.post('/doodle', doodle.create) // Create a new doodle
+  priv.delete('/doodle/:doodle', doodle.archive) // Create a new doodle
   // priv.put('/doodle/:doodle', doodle.upload.single('image'), noop) // Edits a doodle
 
   return compose([

@@ -28,6 +28,15 @@ const multerOptions = {
 
 export const upload = multer(multerOptions)
 
+export async function param (id, ctx, next) {
+  const doodle = await Doodle.findById(id).exec()
+  ctx.assert(doodle, 404, `Doodle not found: [${id}]`)
+
+  ctx.state.doodle = doodle
+
+  return next()
+}
+
 export async function create (ctx, next) {
   const { publicationDate } = ctx.request.body
   // TODO: Validate publicationDate
@@ -42,4 +51,13 @@ export async function create (ctx, next) {
   ctx.status = 201
   ctx.type = 'json'
   ctx.body = doodle.toObject()
+}
+
+export async function archive (ctx, next) {
+  const doodle = ctx.state.doodle
+  doodle.archived = true
+  await doodle.save()
+
+  ctx.type = 'json'
+  ctx.body = { success: true }
 }

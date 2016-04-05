@@ -7,19 +7,15 @@ export default async function login (ctx, next) {
   const body = ctx.request.body
   const { email, password } = body
 
-  const user = await User.findOne({email: email.toLowerCase()})
+  const user = await User.findOne({email: email.toLowerCase()}).exec()
   ctx.assert(user, 401, 'Wrong email or password')
 
   const correctPassword = await compare(password, user.password)
   ctx.assert(correctPassword, 401, 'Wrong email or password')
 
   const token = jwt.sign({
-    email: user.email,
-    roles: user.roles
+    id: user.id
   }, config.jwt.secret)
-
-  user.lastLogin = new Date()
-  await user.save()
 
   ctx.body = {
     success: true,

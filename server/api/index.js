@@ -7,6 +7,7 @@ import auth from '../middleware/auth'
 import signup from './users/signup'
 import login from './users/login'
 import * as doodle from './doodles'
+import * as user from './users'
 
 function noop (ctx, next) { ctx.status = 501 }
 
@@ -25,6 +26,8 @@ export default function () {
   priv.post('/doodles', doodle.create) // Create a new doodle
   priv.put('/doodles/:doodle', doodle.upload.single('image'), doodle.update) // Edits a doodle
   priv.delete('/doodles/:doodle', doodle.archive) // Archives a doodle
+
+  priv.param('user', user.param) // Validate :user param
 
   return compose([
     publ.routes(),

@@ -15,7 +15,6 @@ const multerOptions = {
     s3ForcePathStyle: true,
     endpoint: config.aws.config.endpoint && new AWS.Endpoint(config.aws.config.endpoint),
     filename: function (req, file, cb) {
-      // TODO: Do a better fileName
       const fileName = `${Date.now().toString()}-${file.originalname}`
       cb(null, fileName)
     }

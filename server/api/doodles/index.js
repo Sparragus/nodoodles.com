@@ -31,13 +31,13 @@ export async function param (id, ctx, next) {
   const doodle = await Doodle.findOne({_id: id, archived: false}).exec()
   ctx.assert(doodle, 404, `Doodle not found: [${id}]`)
 
-  ctx.state.doodle = doodle
+  ctx.state.params.doodle = doodle
 
   return next()
 }
 
 export async function get (ctx, next) {
-  const doodle = ctx.state.doodle
+  const doodle = ctx.state.params.doodle
 
   ctx.type = 'json'
   ctx.body = doodle.toObject()
@@ -60,7 +60,7 @@ export async function create (ctx, next) {
 }
 
 export async function update (ctx, next) {
-  let doodle = ctx.state.doodle
+  let doodle = ctx.state.params.doodle
   const body = ctx.request.body
 
   const data = Doodle.updateableFields.reduce((acc, field) => {
@@ -83,7 +83,7 @@ export async function update (ctx, next) {
 }
 
 export async function archive (ctx, next) {
-  const doodle = ctx.state.doodle
+  const doodle = ctx.state.params.doodle
   doodle.archived = true
   await doodle.save()
 

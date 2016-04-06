@@ -10,7 +10,9 @@ export async function param (id, ctx, next) {
 }
 
 export async function get (ctx, next) {
-  ctx.status = 501
+  const user = ctx.state.params.user
+  ctx.type = 'json'
+  ctx.body = user.toObject()
 }
 
 export async function update (ctx, next) {

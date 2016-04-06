@@ -28,6 +28,9 @@ export default function () {
   priv.delete('/doodles/:doodle', doodle.archive) // Archives a doodle
 
   priv.param('user', user.param) // Validate :user param
+  priv.get('/user/:user', user.get) // Get user profile
+  priv.put('/user/:user', user.update) // Update a user profile
+  priv.delete('/user/:user', user.archive) // Suspend a user account
 
   return compose([
     publ.routes(),

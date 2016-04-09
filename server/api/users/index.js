@@ -16,7 +16,26 @@ export async function get (ctx, next) {
 }
 
 export async function update (ctx, next) {
-  ctx.status = 501
+  let user = ctx.state.params.user
+  const body = ctx.request.body
+
+  const data = user.updateableFields.reduce((acc, field) => {
+    if (body[field]) acc[field] = body[field]
+    return acc
+  }, {})
+
+  for (let key in data) {
+    user[key] = data[key]
+  }
+
+  user = await user.save()
+
+  // user = await user
+  //   .populate('author', 'name -_id')
+  //   .execPopulate()
+
+  ctx.type = 'json'
+  ctx.body = user.toObject()
 }
 
 export async function archive (ctx, next) {

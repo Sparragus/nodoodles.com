@@ -36,4 +36,4 @@ app.use(error())
 app.use(bodyParser())
 app.use(api())
 
-app.listen(3000)
+app.listen(config.port || 3000)

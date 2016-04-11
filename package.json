@@ -71,6 +71,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
     "css-loader": "^0.23.1",
+    "html-webpack-plugin": "^2.15.0",
     "npm-run-all": "^1.7.0",
     "s3rver": "0.0.13",
     "standard": "^6.0.8",

@@ -1,4 +1,5 @@
 import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const clientPath = path.join(__dirname, '..', 'client')
 
@@ -41,7 +42,30 @@ const config = {
       }
     },
     port: 8080
-  }
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      templateContent: htmlTemplate()
+    })
+  ]
+}
+
+function htmlTemplate () { 
+  return `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charSet='utf-8'/>
+    <meta httpEquiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
+    <meta name='viewport'
+      content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' />
+    <base href='/'>
+    <title>No Doodles</title>
+  </head>
+  <body>
+  </body>
+</html>`
 }
 
 export default config

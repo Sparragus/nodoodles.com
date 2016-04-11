@@ -2,6 +2,7 @@ import config from 'config'
 import AWS from 'aws-sdk'
 import multer from 'koa-multer'
 import s3 from 'multer-s3'
+import moment from 'moment-timezone'
 
 import Doodle from '../../models/doodle'
 
@@ -34,6 +35,33 @@ export async function param (id, ctx, next) {
   ctx.state.params.doodle = doodle
 
   return next()
+}
+
+function getTodayRange (timezone = 'UTC') {
+  const now = moment.tz(timezone)
+  const startOfDay = now.startOf('day').valueOf()
+  const endOfDay = now.endOf('day').valueOf()
+
+  return {
+    startOfDay,
+    endOfDay
+  }
+}
+
+export async function today (ctx, next) {
+  // Fetch today's doodles
+  const { startOfDay, endOfDay } = getTodayRange(config.timezone || 'UTC')
+
+  const doodles = await Doodle.find({
+    publicationDate: {
+      $gte: startOfDay,
+      $lte: endOfDay
+    }
+  }).exec()
+
+  // Send them all
+  ctx.type = 'json'
+  ctx.body = doodles.map((doodle) => doodle.toObject())
 }
 
 export async function get (ctx, next) {

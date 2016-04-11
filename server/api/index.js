@@ -16,7 +16,7 @@ export default function () {
   const priv = new Router()
 
   // Public Routes
-  publ.get('/doodle', noop) // Get one of today's doodles
+  publ.get('/doodles', doodle.today) // Get one of today's doodles
   publ.post('/signup', signup) // Sign up
   publ.post('/login', login) // Log in
 

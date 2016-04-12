@@ -64,6 +64,7 @@ function htmlTemplate () {
     <title>No Doodles</title>
   </head>
   <body>
+    <div id='app'/>
   </body>
 </html>`
 }

@@ -1,14 +1,14 @@
 import React from 'react'
-import { Router, Route } from 'react-router'
+import { Router, Route, IndexRoute } from 'react-router'
 
 import App from './containers/app'
-import Foo from './containers/foo'
+import Home from './containers/home'
 
 export default function routes ({history}) {
   return (
     <Router history={history}>
       <Route path='/' component={App}>
-        <Route path='foo' component={Foo} />
+        <IndexRoute component={Home} />
       </Route>
     </Router>
   )

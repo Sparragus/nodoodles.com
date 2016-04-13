@@ -1,4 +1,4 @@
-import 'style.css'
+import './style.css'
 import React, { Component } from 'react'
 
 class App extends Component {

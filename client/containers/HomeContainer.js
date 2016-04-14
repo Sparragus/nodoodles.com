@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import HomePage from '../components/pages/home'
+import { HomePage } from '../components/pages'
 
 class HomeContainer extends Component {
   render () {

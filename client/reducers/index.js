@@ -1,6 +1,7 @@
+import { merge } from 'lodash'
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import { merge } from 'lodash'
+import { reducer as formReducer } from 'redux-form'
 
 import doodles from './doodles'
 
@@ -16,5 +17,6 @@ function entities (state = initialState, action) {
 export default combineReducers({
   entities,
   doodles,
+  form: formReducer,
   routing: routerReducer
 })

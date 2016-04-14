@@ -2,7 +2,7 @@ import React from 'react'
 
 import DoodleSearch from '../organisms/doodle-search'
 
-function HomePage (props) {
+export function HomePage (props) {
   const { doodle } = props
 
   return (
@@ -24,5 +24,3 @@ function HomePage (props) {
     </div>
   )
 }
-
-export default HomePage

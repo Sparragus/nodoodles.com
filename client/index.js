@@ -9,7 +9,7 @@ import configureStore from './store'
 import Routes from './routes'
 
 const initialState = () => ({})
-const store = configureStore(initialState())
+const store = configureStore(initialState(), browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
 function Root () {

@@ -9,7 +9,6 @@ function apiCallUrl (path = '') {
 }
 
 export function login (data, redirect = '/') {
-  console.log(typeof JSON.stringify(data))
   return async function (dispatch) {
     const actionResponse = await dispatch({
       [CALL_API]: {

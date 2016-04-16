@@ -12,8 +12,8 @@ import * as user from './users'
 function noop (ctx, next) { ctx.status = 501 }
 
 export default function () {
-  const publ = new Router()
-  const priv = new Router()
+  const publ = new Router({prefix: '/api'})
+  const priv = new Router({prefix: '/api'})
 
   // Public Routes
   publ.get('/doodles', doodle.today) // Get one of today's doodles

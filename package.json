@@ -19,13 +19,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "client:html": "webpack --config config/webpack.config.babel.js --watch",
     "client:server": "webpack-dev-server --config config/webpack.config.babel.js --hot --inline",
-    "dev": "NODE_ENV=development npm-run-all -p dev:*",
+    "dev": "npm-run-all -p dev:*",
     "dev:client": "npm-run-all -p client:*",
     "dev:server": "npm-run-all -p server:*",
     "prepare": "npm-run-all -s prepare:*",
     "prepare:clean": "rm -rf build",
     "prepare:folders": "mkdir -p ./build/s3/nodoodles_development ./build/s3/nodoodles_test",
-    "server:api": "nodemon -w server -w config -r babel-core/register server",
+    "server:api": "NODE_ENV=development nodemon -w server -w config -r babel-core/register server",
     "server:s3": "s3rver -d ./build/s3/"
   },
   "standard": {
@@ -46,9 +46,9 @@
   "dependencies": {
     "aws-sdk": "^2.3.0",
     "bcryptjs": "^2.3.0",
+    "co-body": "^4.0.0",
     "config": "^1.19.0",
     "koa": "^2.0.0",
-    "koa-bodyparser": "^3.0.0",
     "koa-compose": "^3.1.0",
     "koa-convert": "^1.2.0",
     "koa-jwt": "^1.1.2",
@@ -66,7 +66,9 @@
     "react-router": "^2.1.1",
     "react-router-redux": "^4.0.2",
     "redux": "^3.4.0",
+    "redux-api-middleware": "^1.0.1",
     "redux-form": "^5.0.1",
+    "redux-thunk": "^2.0.1",
     "validator": "^5.1.0"
   },
   "devDependencies": {

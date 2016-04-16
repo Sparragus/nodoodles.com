@@ -8,7 +8,6 @@ import mongoose from 'mongoose'
 // Import Koa and middleware
 import Koa from 'koa'
 import logger from 'koa-logger'
-import bodyParser from 'koa-bodyparser'
 import error from './middleware/error'
 
 // Import app related
@@ -33,7 +32,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(error())
-app.use(bodyParser())
 app.use(api())
 
 app.listen(config.port || 3000)

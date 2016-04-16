@@ -5,6 +5,8 @@ import { replace } from 'react-router-redux'
 
 import { LoginPage } from '../components/pages'
 
+import { login } from '../actions/auth'
+
 class LoginContainer extends Component {
   constructor (props) {
     super(props)
@@ -18,7 +20,9 @@ class LoginContainer extends Component {
   }
 
   handleSubmit (data) {
-    console.log(data)
+    // TODO: See if the user intended to go a page that required auth. Redirect there.
+    const redirect = '/'
+    this.props.login(data, redirect)
   }
 
   render () {
@@ -34,5 +38,5 @@ const mapStateToProps = (state, props) => {
 
 export default connect(
   mapStateToProps,
-  { replace }
+  { replace, login }
 )(LoginContainer)

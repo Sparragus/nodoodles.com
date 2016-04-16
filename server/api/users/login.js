@@ -1,12 +1,11 @@
 import config from 'config'
-import parse from 'co-body'
 import jwt from 'koa-jwt'
 
 import User from '../../models/user'
 import { compare } from '../../util/bcrypt'
 
 export default async function login (ctx, next) {
-  const body = await parse.json(ctx)
+  const body = ctx.request.body
   const { email, password } = body
 
   const user = await User.findOne({email: email.toLowerCase()}).exec()

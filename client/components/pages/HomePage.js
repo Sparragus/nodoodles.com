@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 import DoodleSearch from '../organisms/doodle-search'
 
@@ -15,9 +16,9 @@ export function HomePage (props) {
         </div>
         <div>
           <ul className='horizontal'>
-            <li><a href='/login'>Log in</a></li>
-            <li><a href='#'>Collaborate</a></li>
-            <li><a href='#'>About</a></li>
+            <li><Link to='/login'>Log in</Link></li>
+            <li><Link to='#'>Collaborate</Link></li>
+            <li><Link to='#'>About</Link></li>
           </ul>
         </div>
       </footer>

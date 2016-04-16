@@ -1,17 +1,20 @@
 import path from 'path'
+import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const clientPath = path.join(__dirname, '..', 'client')
 
 const config = {
-  entry: {
-    app: path.join(clientPath, 'index.js')
-  },
+  entry: [
+    'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
+    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+    path.join(clientPath, 'index.js')
+  ],
 
   output: {
     path: path.join(__dirname, '..', 'build', 'client'),
-    publicPath: 'http://localhost:8080',
-    filename: '[name].js'
+    publicPath: 'http://0.0.0.0:8080/',
+    filename: 'app.js'
   },
 
   devtool: 'cheap-module-eval-source-map',
@@ -23,7 +26,7 @@ const config = {
         clientPath
       ],
       exclude: /node_modules/,
-      loader: 'babel'
+      loaders: ['react-hot', 'babel']
     }, {
       test: /\.css$/,
       include: [
@@ -45,6 +48,7 @@ const config = {
   },
 
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
       templateContent: htmlTemplate()
@@ -52,7 +56,7 @@ const config = {
   ]
 }
 
-function htmlTemplate () { 
+function htmlTemplate () {
   return `<!DOCTYPE html>
 <html>
   <head>

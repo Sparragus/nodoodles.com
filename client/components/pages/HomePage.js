@@ -15,7 +15,7 @@ export function HomePage (props) {
         </div>
         <div>
           <ul className='horizontal'>
-            <li><a href='#'>Log in</a></li>
+            <li><a href='/login'>Log in</a></li>
             <li><a href='#'>Collaborate</a></li>
             <li><a href='#'>About</a></li>
           </ul>

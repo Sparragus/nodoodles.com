@@ -21,7 +21,8 @@ export function login (data, redirect = '/') {
             type: 'LOGIN_SUCCESS',
             payload: (action, state, res) => res.json()
           },
-          'LOGIN_FAILURE'],
+          'LOGIN_FAILURE'
+        ],
         headers: {
           'Content-Type': 'application/json'
         }
